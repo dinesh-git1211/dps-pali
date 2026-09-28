@@ -1,0 +1,114 @@
+@import "tailwindcss";
+
+/* ================================================================
+   DPS PALI DISTRICT — Design Tokens
+   Source of Truth: design-system/dps-pali/MASTER.md
+   ================================================================ */
+
+:root {
+  /* --- Primitive Tokens --- */
+
+  /* Emerald Green (Brand Primary) */
+  --color-emerald-900: #064E3B;
+  --color-emerald-800: #0A5C36;
+  --color-emerald-700: #0D6B40;
+  --color-emerald-600: #10803E;
+  --color-emerald-100: #D1FAE5;
+  --color-emerald-50: #ECFDF5;
+
+  /* Amber / Gold (Accent) */
+  --color-amber-800: #92400E;
+  --color-amber-700: #B45309;
+  --color-amber-600: #D97706;
+  --color-amber-500: #F59E0B;
+  --color-amber-50: #FFFBEB;
+
+  /* Neutral Slate */
+  --color-slate-950: #020617;
+  --color-slate-900: #0F172A;
+  --color-slate-700: #334155;
+  --color-slate-500: #64748B;
+  --color-slate-400: #94A3B8;
+  --color-slate-300: #CBD5E1;
+  --color-slate-200: #E2E8F0;
+  --color-slate-100: #F1F5F9;
+  --color-slate-50: #F8FAFC;
+
+  /* --- Semantic Tokens --- */
+  --background: #FFFFFF;
+  --foreground: #0F172A;
+}
+
+/* ================================================================
+   Tailwind v4 Theme — Generates utility classes
+   Usage: bg-primary, text-accent, font-heading, etc.
+   ================================================================ */
+@theme inline {
+  /* Colors */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-primary: #0A5C36;
+  --color-primary-hover: #0D6B40;
+  --color-primary-active: #10803E;
+  --color-primary-light: #ECFDF5;
+
+  --color-accent: #92400E;
+  --color-accent-hover: #B45309;
+  --color-accent-decorative: #D97706;
+
+  --color-section-alt: #F8FAFC;
+  --color-card: #FFFFFF;
+  --color-card-foreground: #0F172A;
+  --color-muted: #64748B;
+  --color-border: #E2E8F0;
+  --color-ring: #0A5C36;
+  --color-destructive: #DC2626;
+
+  --color-footer-bg: #020617;
+  --color-footer-text: #CBD5E1;
+
+  --color-hero-from: #064E3B;
+  --color-hero-to: #0A5C36;
+
+  /* Typography */
+  --font-heading: var(--font-poppins);
+  --font-body: var(--font-open-sans);
+  --font-sans: var(--font-open-sans);
+}
+
+/* ================================================================
+   Base Styles
+   ================================================================ */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem; /* Account for sticky navbar height */
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body), "Open Sans", system-ui, sans-serif;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Focus ring utility (global) */
+:focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: 2px;
+}

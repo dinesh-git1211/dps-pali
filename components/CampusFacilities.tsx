@@ -1,0 +1,160 @@
+import PhotoPlaceholder from "@/components/PhotoPlaceholder";
+import {
+  Snowflake,
+  Microscope,
+  BookOpen,
+  Trophy,
+  Bus,
+  Utensils,
+  Music,
+  ShieldCheck,
+} from "lucide-react";
+
+/* ────────────────────────────────────────────────────────────────
+   Campus facility data with photo skeleton slots
+   ──────────────────────────────────────────────────────────────── */
+const FACILITIES = [
+  {
+    icon: Snowflake,
+    title: "AC Classrooms",
+    description:
+      "Air-conditioned classrooms equipped with modern teaching aids, ensuring a comfortable and focused learning environment throughout the year.",
+    badge: "Comfort",
+    imageSrc: "/images/facilities/classroom.svg",
+    imageSize: "800 × 533 px",
+  },
+  {
+    icon: Microscope,
+    title: "Science & Computer Lab",
+    description:
+      "Well-equipped science laboratories and a modern computer lab with dedicated workstations that foster hands-on experimentation and digital literacy.",
+    badge: "Learning",
+    imageSrc: "/images/facilities/lab.svg",
+    imageSize: "800 × 533 px",
+  },
+  {
+    icon: BookOpen,
+    title: "Library & Media Centre",
+    description:
+      "A curated collection of 5,000+ books, journals, and digital resources with dedicated reading corners and a quiet study zone.",
+    badge: "Knowledge",
+    imageSrc: "/images/facilities/library.svg",
+    imageSize: "800 × 533 px",
+  },
+  {
+    icon: Trophy,
+    title: "Sports Complex",
+    description:
+      "Multi-sport grounds for cricket, football, basketball, and athletics with professional coaching and inter-school competition preparation.",
+    badge: "Sports",
+    imageSrc: "/images/facilities/sports.svg",
+    imageSize: "800 × 533 px",
+  },
+  {
+    icon: Bus,
+    title: "GPS-Enabled Transport",
+    description:
+      "A fleet of school buses covering major routes across Pali district, equipped with GPS tracking and trained attendants for safe commutes.",
+    badge: "Safety",
+    imageSrc: "/images/facilities/transport.svg",
+    imageSize: "800 × 533 px",
+  },
+  {
+    icon: Music,
+    title: "Activity & Arts Hall",
+    description:
+      "Dedicated spaces for music, dance, drama, and visual arts — nurturing creativity and self-expression alongside academics.",
+    badge: "Arts",
+    imageSrc: "/images/facilities/arts.svg",
+    imageSize: "800 × 533 px",
+  },
+  {
+    icon: Utensils,
+    title: "Hygienic Cafeteria",
+    description:
+      "A clean, supervised dining space serving nutritious meals and snacks, maintained to the highest hygiene standards.",
+    badge: "Wellness",
+    imageSrc: "/images/facilities/cafeteria.svg",
+    imageSize: "800 × 533 px",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Safety & Security",
+    description:
+      "CCTV surveillance, secure campus perimeter, fire safety systems, and trained staff ensuring a safe learning environment at all times.",
+    badge: "Security",
+    imageSrc: "/images/facilities/security.svg",
+    imageSize: "800 × 533 px",
+  },
+] as const;
+
+export default function CampusFacilities() {
+  return (
+    <section
+      id="facilities"
+      className="scroll-mt-24 bg-white py-20 sm:py-24"
+      aria-labelledby="facilities-heading"
+    >
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {/* ── Section Header ── */}
+        <div className="mx-auto max-w-3xl text-center">
+          <p className="text-sm font-semibold uppercase tracking-widest text-accent-decorative">
+            Our Campus
+          </p>
+          <h2
+            id="facilities-heading"
+            className="mt-2 font-heading text-3xl font-bold tracking-tight text-foreground sm:text-4xl"
+            style={{ textWrap: "balance" } as React.CSSProperties}
+          >
+            World-Class Facilities
+          </h2>
+          <p className="mt-4 text-lg leading-relaxed text-muted">
+            A modern campus designed to support every dimension of a student&apos;s
+            growth — academic, creative, athletic, and personal.
+          </p>
+        </div>
+
+        {/* ── Facility Cards Grid with Photo Skeletons ── */}
+        <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {FACILITIES.map(
+            ({ icon: Icon, title, description, badge, imageSrc, imageSize }) => (
+              <article
+                key={title}
+                className="group relative flex flex-col overflow-hidden rounded-xl border border-border bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md motion-reduce:hover:translate-y-0"
+              >
+                {/* Photo Skeleton Header */}
+                <div className="relative">
+                  <PhotoPlaceholder
+                    src={imageSrc}
+                    alt={title}
+                    label={title}
+                    badge={badge}
+                    recommendedSize={imageSize}
+                    aspectRatio="aspect-[16/10]"
+                    className="rounded-b-none border-0 border-b border-border"
+                  />
+                </div>
+
+                {/* Content */}
+                <div className="flex flex-1 flex-col p-5">
+                  <div className="flex items-center gap-3">
+                    <div className="inline-flex size-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-white">
+                      <Icon className="size-4" aria-hidden="true" />
+                    </div>
+                    <h3 className="font-heading text-base font-semibold text-foreground">
+                      {title}
+                    </h3>
+                  </div>
+
+                  <p className="mt-2.5 flex-1 text-sm leading-relaxed text-muted">
+                    {description}
+                  </p>
+                </div>
+              </article>
+            ),
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
