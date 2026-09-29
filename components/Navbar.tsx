@@ -91,6 +91,7 @@ export default function Navbar() {
             width={48}
             height={52}
             className="h-12 w-auto"
+            style={{ width: "auto" }}
             aria-hidden="true"
             priority
           />
