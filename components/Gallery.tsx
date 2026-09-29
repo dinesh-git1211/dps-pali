@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import TiltCard from "@/components/TiltCard";
 import { Eye, X, Camera, Sparkles } from "lucide-react";
 
 interface GalleryItem {
@@ -84,9 +85,19 @@ export default function Gallery() {
   return (
     <section
       id="gallery"
-      className="scroll-mt-24 bg-section-alt py-20 sm:py-24"
+      className="relative scroll-mt-24 overflow-hidden overflow-x-hidden bg-section-alt py-20 sm:py-24"
       aria-labelledby="gallery-heading"
     >
+      {/* ── Ambient Depth Orbs ── */}
+      <div
+        className="pointer-events-none absolute -right-24 top-1/4 size-72 rounded-full bg-emerald-500/10 blur-[80px]"
+        aria-hidden="true"
+      />
+      <div
+        className="pointer-events-none absolute -left-24 bottom-1/4 size-72 rounded-full bg-amber-400/10 blur-[80px]"
+        aria-hidden="true"
+      />
+
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* ── Section Header ── */}
         <div className="mx-auto max-w-3xl text-center">
@@ -106,7 +117,7 @@ export default function Gallery() {
           </p>
         </div>
 
-        {/* ── Filter Tabs ── */}
+        {/* ── Filter Tabs with Tap Feedback ── */}
         <div className="mt-10 flex flex-wrap items-center justify-center gap-2">
           {CATEGORIES.map((cat) => {
             const isActive = activeCategory === cat;
@@ -115,7 +126,7 @@ export default function Gallery() {
                 key={cat}
                 type="button"
                 onClick={() => setActiveCategory(cat)}
-                className={`rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
+                className={`rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 active:scale-95 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
                   isActive
                     ? "bg-primary text-white shadow-sm"
                     : "bg-white text-slate-700 hover:bg-slate-100 hover:text-primary"
@@ -127,62 +138,63 @@ export default function Gallery() {
           })}
         </div>
 
-        {/* ── Photo Skeletons Grid ── */}
+        {/* ── Photo Skeletons Grid with 3D TiltCards ── */}
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {filteredItems.map((item) => (
-            <div
-              key={item.id}
-              onClick={() => setSelectedItem(item)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  setSelectedItem(item);
-                }
-              }}
-              tabIndex={0}
-              role="button"
-              aria-label={`View photo: ${item.title}`}
-              className="group relative cursor-pointer overflow-hidden rounded-xl border border-border bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 motion-reduce:hover:translate-y-0"
-            >
-              {/* Photo Frame */}
-              <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-900">
-                <Image
-                  src={item.imageSrc}
-                  alt={item.title}
-                  fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
+            <TiltCard key={item.id} scale={1.03} maxTilt={6}>
+              <div
+                onClick={() => setSelectedItem(item)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setSelectedItem(item);
+                  }
+                }}
+                tabIndex={0}
+                role="button"
+                aria-label={`View photo: ${item.title}`}
+                className="group relative h-full cursor-pointer overflow-hidden rounded-xl border border-border bg-white shadow-sm transition-all duration-300 hover:shadow-xl hover:shadow-emerald-950/5 hover:border-emerald-200 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+              >
+                {/* Photo Frame */}
+                <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-900">
+                  <Image
+                    src={item.imageSrc}
+                    alt={item.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
 
-                {/* Category Badge */}
-                <span className="absolute left-3 top-3 z-10 inline-flex items-center rounded-full bg-black/50 px-2.5 py-0.5 text-xs font-semibold text-white backdrop-blur-md">
-                  {item.category}
-                </span>
+                  {/* Category Badge */}
+                  <span className="absolute left-3 top-3 z-10 inline-flex items-center rounded-full bg-black/50 px-2.5 py-0.5 text-xs font-semibold text-white backdrop-blur-md">
+                    {item.category}
+                  </span>
 
-                {/* Hover overlay with Eye icon */}
-                <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                  <div className="flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-bold text-primary shadow-lg">
-                    <Eye className="size-4" aria-hidden="true" />
-                    <span>Preview Slot</span>
+                  {/* Hover overlay with Eye icon */}
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                    <div className="flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-bold text-primary shadow-lg">
+                      <Eye className="size-4" aria-hidden="true" />
+                      <span>Preview Slot</span>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Card Footer */}
-              <div className="p-4 sm:p-5">
-                <div className="flex items-start justify-between gap-2">
-                  <h3 className="font-heading text-base font-semibold text-foreground group-hover:text-primary transition-colors">
-                    {item.title}
-                  </h3>
-                  <span className="shrink-0 rounded bg-slate-100 px-1.5 py-0.5 text-[10px] font-medium text-slate-500">
-                    {item.recommendedSize}
-                  </span>
+                {/* Card Footer */}
+                <div className="p-4 sm:p-5">
+                  <div className="flex items-start justify-between gap-2">
+                    <h3 className="font-heading text-base font-semibold text-foreground group-hover:text-primary transition-colors">
+                      {item.title}
+                    </h3>
+                    <span className="shrink-0 rounded bg-slate-100 px-1.5 py-0.5 text-[10px] font-medium text-slate-500">
+                      {item.recommendedSize}
+                    </span>
+                  </div>
+                  <p className="mt-1.5 text-xs leading-relaxed text-muted line-clamp-2">
+                    {item.description}
+                  </p>
                 </div>
-                <p className="mt-1.5 text-xs leading-relaxed text-muted line-clamp-2">
-                  {item.description}
-                </p>
               </div>
-            </div>
+            </TiltCard>
           ))}
         </div>
 

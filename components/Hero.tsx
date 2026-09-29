@@ -1,5 +1,9 @@
+"use client";
+
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import { Camera } from "lucide-react";
+import TiltCard from "@/components/TiltCard";
+import { Camera, Play, Pause } from "lucide-react";
 
 /* ────────────────────────────────────────────────────────────────
    Statistics shown in the hero section.
@@ -13,24 +17,90 @@ const STATS = [
 ] as const;
 
 export default function Hero() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [hasVideoError, setHasVideoError] = useState(false);
+
+  /* ── Honor prefers-reduced-motion ── */
+  useEffect(() => {
+    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (motionQuery.matches && videoRef.current) {
+      videoRef.current.pause();
+      setIsPlaying(false);
+    }
+
+    const handleChange = () => {
+      if (motionQuery.matches && videoRef.current) {
+        videoRef.current.pause();
+        setIsPlaying(false);
+      }
+    };
+
+    motionQuery.addEventListener("change", handleChange);
+    return () => motionQuery.removeEventListener("change", handleChange);
+  }, []);
+
+  const toggleVideo = () => {
+    if (!videoRef.current) return;
+    if (isPlaying) {
+      videoRef.current.pause();
+      setIsPlaying(false);
+    } else {
+      videoRef.current.play().catch(() => {});
+      setIsPlaying(true);
+    }
+  };
+
   return (
     <section
       id="hero"
-      className="relative overflow-hidden bg-linear-to-br from-hero-from to-hero-to"
+      className="relative overflow-hidden overflow-x-hidden bg-linear-to-br from-hero-from to-hero-to"
       aria-label="Welcome to DPS Pali District"
     >
-      {/* ── Campus Facade Background Photo Skeleton Layer ── */}
+      {/* ── Background Video & Poster Layer ── */}
       <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
-        <Image
-          src="/images/hero-campus.svg"
-          alt="DPS Pali District Campus Facade"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover opacity-20 mix-blend-luminosity scale-105"
-        />
+        {!hasVideoError && (
+          <video
+            ref={videoRef}
+            autoPlay
+            loop
+            muted
+            playsInline
+            poster="/images/hero-campus.svg"
+            onError={() => setHasVideoError(true)}
+            className="h-full w-full object-cover opacity-25 mix-blend-luminosity scale-105"
+          >
+            <source src="/videos/hero-campus.mp4" type="video/mp4" />
+            <source src="/videos/hero-campus.webm" type="video/webm" />
+          </video>
+        )}
+
+        {/* Fallback Static Poster Image */}
+        {hasVideoError && (
+          <Image
+            src="/images/hero-campus.svg"
+            alt="DPS Pali District Campus Facade"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover opacity-20 mix-blend-luminosity scale-105"
+          />
+        )}
+
+        {/* Emerald vignette for 100% WCAG AAA readability */}
         <div className="absolute inset-0 bg-linear-to-b from-hero-from/85 via-hero-from/90 to-hero-to/95" />
       </div>
+
+      {/* ── 3D Ambient Glowing Depth Orbs ── */}
+      <div
+        className="pointer-events-none absolute -left-20 -top-20 size-80 rounded-full bg-emerald-400/20 blur-[90px] animate-pulse-glow"
+        aria-hidden="true"
+      />
+      <div
+        className="pointer-events-none absolute -right-20 top-1/3 size-80 rounded-full bg-amber-400/15 blur-[90px] animate-pulse-glow"
+        style={{ animationDelay: "2.5s" }}
+        aria-hidden="true"
+      />
 
       {/* ── Decorative pattern overlay ── */}
       <div
@@ -46,21 +116,21 @@ export default function Hero() {
       {/* ── Main content ── */}
       <div className="relative mx-auto max-w-7xl px-4 pb-16 pt-20 sm:px-6 sm:pb-20 sm:pt-28 lg:px-8 lg:pb-24 lg:pt-32">
         <div className="flex flex-col items-center text-center">
-          {/* Logo */}
-          <div className="mb-6 sm:mb-8">
+          {/* Logo with 3D Float */}
+          <div className="mb-6 animate-float-slow sm:mb-8">
             <Image
               src="/logo.png"
               alt="DPS Pali District crest"
               width={100}
               height={110}
-              className="h-24 w-auto drop-shadow-lg sm:h-28 lg:h-32"
+              className="h-24 w-auto drop-shadow-2xl sm:h-28 lg:h-32"
               priority
             />
           </div>
 
           {/* Location badge & Photo indicator */}
           <div className="mb-6 flex flex-wrap items-center justify-center gap-2.5">
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 backdrop-blur-sm">
+            <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 backdrop-blur-sm shadow-xs">
               <svg
                 className="size-4 text-amber-400"
                 fill="none"
@@ -87,12 +157,12 @@ export default function Hero() {
 
             <div className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-black/25 px-3 py-1.5 text-xs font-medium text-emerald-200/90 backdrop-blur-sm">
               <Camera className="size-3.5 text-amber-400" aria-hidden="true" />
-              <span>Campus View (1920×1080)</span>
+              <span>Campus Tour / Video Slot</span>
             </div>
           </div>
 
           {/* Headline */}
-          <h1 className="font-heading text-4xl font-bold leading-[1.1] tracking-tight text-white sm:text-5xl lg:text-6xl">
+          <h1 className="font-heading text-4xl font-bold leading-[1.1] tracking-tight text-white drop-shadow-sm sm:text-5xl lg:text-6xl">
             Delhi Public School
             <span className="mt-1 block text-emerald-100 sm:mt-2">
               Pali District
@@ -100,17 +170,17 @@ export default function Hero() {
           </h1>
 
           {/* Tagline */}
-          <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-emerald-100/90 sm:text-xl">
+          <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-emerald-100/95 sm:text-xl">
             Nurturing future leaders through holistic education, modern campus
             facilities, and unwavering commitment to academic excellence under
             the CBSE curriculum.
           </p>
 
-          {/* CTA Buttons */}
+          {/* CTA Buttons with 3D Tap Feedback */}
           <div className="mt-8 flex flex-col gap-4 sm:mt-10 sm:flex-row sm:gap-4">
             <a
               href="#admissions"
-              className="inline-flex items-center justify-center gap-2 rounded-lg bg-accent px-7 py-3.5 text-base font-semibold text-white shadow-lg transition-all duration-200 hover:bg-accent-hover hover:shadow-xl focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 focus-visible:ring-offset-primary motion-reduce:transition-none"
+              className="inline-flex items-center justify-center gap-2 rounded-lg bg-accent px-7 py-3.5 text-base font-semibold text-white shadow-lg shadow-amber-950/20 transition-all duration-200 hover:bg-accent-hover hover:shadow-xl active:scale-95 focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 focus-visible:ring-offset-primary motion-reduce:transition-none"
             >
               <svg
                 className="size-5"
@@ -130,7 +200,7 @@ export default function Hero() {
             </a>
             <a
               href="#facilities"
-              className="inline-flex items-center justify-center gap-2 rounded-lg border-2 border-white/30 bg-white/10 px-7 py-3.5 text-base font-semibold text-white backdrop-blur-sm transition-all duration-200 hover:border-white/50 hover:bg-white/20 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-primary motion-reduce:transition-none"
+              className="inline-flex items-center justify-center gap-2 rounded-lg border-2 border-white/30 bg-white/10 px-7 py-3.5 text-base font-semibold text-white backdrop-blur-sm shadow-md transition-all duration-200 hover:border-white/50 hover:bg-white/20 active:scale-95 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-primary motion-reduce:transition-none"
             >
               <svg
                 className="size-5"
@@ -151,28 +221,49 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* ── Stats Row ── */}
+        {/* ── Stats Row with 3D TiltCards & Glassmorphism ── */}
         <div className="mx-auto mt-14 max-w-3xl sm:mt-16">
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 sm:gap-6">
             {STATS.map(({ value, label }) => (
-              <div
-                key={label}
-                className="rounded-xl border border-white/15 bg-white/10 px-4 py-5 text-center backdrop-blur-sm"
-              >
-                <p className="font-heading text-2xl font-bold text-white sm:text-3xl">
-                  {value}
-                </p>
-                <p className="mt-1 text-xs font-medium tracking-wide text-emerald-200 sm:text-sm">
-                  {label}
-                </p>
-              </div>
+              <TiltCard key={label} scale={1.04} maxTilt={6}>
+                <div className="rounded-xl border border-white/20 bg-white/10 px-4 py-5 text-center backdrop-blur-md shadow-lg shadow-emerald-950/20 transition-all duration-300 hover:bg-white/15 hover:border-white/35">
+                  <p className="font-heading text-2xl font-bold text-white sm:text-3xl">
+                    {value}
+                  </p>
+                  <p className="mt-1 text-xs font-medium tracking-wide text-emerald-200 sm:text-sm">
+                    {label}
+                  </p>
+                </div>
+              </TiltCard>
             ))}
           </div>
         </div>
       </div>
 
+      {/* ── Video Pause / Play Accessible Toggle ── */}
+      <div className="absolute bottom-6 right-4 z-20 sm:bottom-8 sm:right-6">
+        <button
+          type="button"
+          onClick={toggleVideo}
+          aria-label={isPlaying ? "Pause background video" : "Play background video"}
+          className="inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-black/40 px-3 py-1.5 text-xs font-medium text-white/90 backdrop-blur-md shadow-md transition-all hover:bg-black/60 active:scale-95 focus-visible:ring-2 focus-visible:ring-white"
+        >
+          {isPlaying ? (
+            <>
+              <Pause className="size-3.5 text-amber-400" aria-hidden="true" />
+              <span className="hidden sm:inline">Pause Video</span>
+            </>
+          ) : (
+            <>
+              <Play className="size-3.5 text-emerald-400" aria-hidden="true" />
+              <span className="hidden sm:inline">Play Video</span>
+            </>
+          )}
+        </button>
+      </div>
+
       {/* ── Bottom wave / curve ── */}
-      <div className="absolute bottom-0 left-0 right-0" aria-hidden="true">
+      <div className="absolute bottom-0 left-0 right-0 pointer-events-none" aria-hidden="true">
         <svg
           viewBox="0 0 1440 60"
           fill="none"

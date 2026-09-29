@@ -169,7 +169,7 @@ export default function AdmissionsForm() {
                 });
               });
             }}
-            className="mt-6 inline-flex items-center rounded-lg border border-primary bg-white px-5 py-2.5 text-sm font-semibold text-primary transition-colors hover:bg-primary-light focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+            className="mt-6 inline-flex items-center rounded-lg border border-primary bg-white px-5 py-2.5 text-sm font-semibold text-primary shadow-xs transition-all hover:bg-primary-light active:scale-95 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
           >
             Submit Another Inquiry
           </button>
@@ -404,7 +404,7 @@ export default function AdmissionsForm() {
           <button
             type="submit"
             disabled={status === "submitting"}
-            className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-accent px-6 py-3 text-base font-semibold text-white shadow-sm transition-colors duration-200 hover:bg-accent-hover focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-accent px-6 py-3 text-base font-semibold text-white shadow-sm transition-all duration-200 hover:bg-accent-hover active:scale-95 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
           >
             {status === "submitting" ? (
               <>

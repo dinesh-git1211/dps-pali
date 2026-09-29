@@ -1,3 +1,4 @@
+import TiltCard from "@/components/TiltCard";
 import {
   Palette,
   BookOpenCheck,
@@ -76,9 +77,18 @@ export default function AcademicWings() {
   return (
     <section
       id="academics"
-      className="scroll-mt-24 bg-section-alt py-20 sm:py-24"
+      className="relative scroll-mt-24 overflow-hidden overflow-x-hidden bg-section-alt py-20 sm:py-24"
       aria-labelledby="academics-heading"
     >
+      {/* ── Ambient Depth Orbs ── */}
+      <div
+        className="pointer-events-none absolute -left-20 top-1/4 size-72 rounded-full bg-emerald-500/10 blur-[80px]"
+        aria-hidden="true"
+      />
+      <div
+        className="pointer-events-none absolute -right-20 bottom-1/4 size-72 rounded-full bg-amber-400/10 blur-[80px]"
+        aria-hidden="true"
+      />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* ── Section Header ── */}
         <div className="mx-auto max-w-3xl text-center">
@@ -99,7 +109,7 @@ export default function AcademicWings() {
           </p>
         </div>
 
-        {/* ── Wing Cards Grid ── */}
+        {/* ── Wing Cards Grid with 3D TiltCards ── */}
         <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:gap-8">
           {WINGS.map(
             ({
@@ -111,50 +121,51 @@ export default function AcademicWings() {
               description,
               highlights,
             }) => (
-              <article
-                key={title}
-                className="group relative overflow-hidden rounded-xl border border-border bg-white shadow-sm transition-shadow duration-300 hover:shadow-md"
-              >
-                {/* Top color accent bar */}
-                <div className={`h-1.5 ${accentBar}`} aria-hidden="true" />
+              <TiltCard key={title} scale={1.02} maxTilt={5}>
+                <article
+                  className="group relative h-full overflow-hidden rounded-xl border border-border bg-white shadow-sm transition-all duration-300 hover:shadow-xl hover:shadow-emerald-950/5 hover:border-emerald-200"
+                >
+                  {/* Top color accent bar */}
+                  <div className={`h-1.5 ${accentBar}`} aria-hidden="true" />
 
-                <div className="p-6 sm:p-8">
-                  {/* Icon + title row */}
-                  <div className="flex items-start gap-4">
-                    <div
-                      className={`inline-flex size-12 shrink-0 items-center justify-center rounded-lg border ${color}`}
-                    >
-                      <Icon className="size-6" aria-hidden="true" />
+                  <div className="p-6 sm:p-8">
+                    {/* Icon + title row */}
+                    <div className="flex items-start gap-4">
+                      <div
+                        className={`inline-flex size-12 shrink-0 items-center justify-center rounded-lg border ${color} transition-transform duration-300 group-hover:scale-105`}
+                      >
+                        <Icon className="size-6" aria-hidden="true" />
+                      </div>
+                      <div>
+                        <h3 className="font-heading text-xl font-semibold text-foreground">
+                          {title}
+                        </h3>
+                        <span className="mt-0.5 inline-block rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-600">
+                          {grades}
+                        </span>
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="font-heading text-xl font-semibold text-foreground">
-                        {title}
-                      </h3>
-                      <span className="mt-0.5 inline-block rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-600">
-                        {grades}
-                      </span>
-                    </div>
+
+                    {/* Description */}
+                    <p className="mt-4 text-base leading-relaxed text-muted">
+                      {description}
+                    </p>
+
+                    {/* Highlights list */}
+                    <ul className="mt-5 space-y-2.5" role="list">
+                      {highlights.map((item) => (
+                        <li key={item} className="flex items-start gap-2.5">
+                          <CheckCircle2
+                            className="mt-0.5 size-4 shrink-0 text-primary"
+                            aria-hidden="true"
+                          />
+                          <span className="text-sm text-slate-700">{item}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-
-                  {/* Description */}
-                  <p className="mt-4 text-base leading-relaxed text-muted">
-                    {description}
-                  </p>
-
-                  {/* Highlights list */}
-                  <ul className="mt-5 space-y-2.5" role="list">
-                    {highlights.map((item) => (
-                      <li key={item} className="flex items-start gap-2.5">
-                        <CheckCircle2
-                          className="mt-0.5 size-4 shrink-0 text-primary"
-                          aria-hidden="true"
-                        />
-                        <span className="text-sm text-slate-700">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </article>
+                </article>
+              </TiltCard>
             ),
           )}
         </div>
@@ -167,12 +178,12 @@ export default function AcademicWings() {
             </h3>
             <p className="mt-1 text-sm text-slate-600">
               Our curriculum integrates NCERT guidelines with experiential
-              learning, STEM labs, and 21st-century skill development.
+              learning, modern science &amp; computer labs, and 21st-century skill development.
             </p>
           </div>
           <a
             href="#admissions"
-            className="mt-4 inline-flex shrink-0 items-center justify-center rounded-lg bg-primary px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors duration-200 hover:bg-primary-hover focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 sm:mt-0"
+            className="mt-4 inline-flex shrink-0 items-center justify-center rounded-lg bg-primary px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-primary-hover active:scale-95 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 sm:mt-0"
           >
             Begin Admission Inquiry
           </a>

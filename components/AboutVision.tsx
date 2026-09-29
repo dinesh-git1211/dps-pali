@@ -1,5 +1,6 @@
 import Image from "next/image";
 import PhotoPlaceholder from "@/components/PhotoPlaceholder";
+import TiltCard from "@/components/TiltCard";
 import {
   BookOpen,
   Target,
@@ -35,7 +36,20 @@ const PILLARS = [
 
 export default function AboutVision() {
   return (
-    <section id="about" className="scroll-mt-24 bg-white py-20 sm:py-24" aria-labelledby="about-heading">
+    <section
+      id="about"
+      className="relative scroll-mt-24 overflow-hidden overflow-x-hidden bg-white py-20 sm:py-24"
+      aria-labelledby="about-heading"
+    >
+      {/* ── Ambient Depth Orbs ── */}
+      <div
+        className="pointer-events-none absolute -left-24 top-1/4 size-72 rounded-full bg-emerald-500/10 blur-[80px]"
+        aria-hidden="true"
+      />
+      <div
+        className="pointer-events-none absolute -right-24 bottom-1/4 size-72 rounded-full bg-amber-400/10 blur-[80px]"
+        aria-hidden="true"
+      />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* ── Section Header ── */}
         <div className="mx-auto max-w-3xl text-center">
@@ -59,23 +73,22 @@ export default function AboutVision() {
           </p>
         </div>
 
-        {/* ── Vision / Mission / Values Cards ── */}
+        {/* ── Vision / Mission / Values Cards with 3D Tilt ── */}
         <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {PILLARS.map(({ icon: Icon, title, description }) => (
-            <div
-              key={title}
-              className="group rounded-xl border border-border bg-white p-6 shadow-sm transition-shadow duration-300 hover:shadow-md sm:p-8"
-            >
-              <div className="mb-4 inline-flex size-12 items-center justify-center rounded-lg bg-primary-light text-primary">
-                <Icon className="size-6" aria-hidden="true" />
+            <TiltCard key={title} scale={1.03} maxTilt={6}>
+              <div className="group h-full rounded-xl border border-border bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-xl hover:shadow-emerald-950/5 hover:border-emerald-200 sm:p-8">
+                <div className="mb-4 inline-flex size-12 items-center justify-center rounded-lg bg-primary-light text-primary transition-transform duration-300 group-hover:scale-110">
+                  <Icon className="size-6" aria-hidden="true" />
+                </div>
+                <h3 className="font-heading text-xl font-semibold text-foreground">
+                  {title}
+                </h3>
+                <p className="mt-3 text-base leading-relaxed text-muted">
+                  {description}
+                </p>
               </div>
-              <h3 className="font-heading text-xl font-semibold text-foreground">
-                {title}
-              </h3>
-              <p className="mt-3 text-base leading-relaxed text-muted">
-                {description}
-              </p>
-            </div>
+            </TiltCard>
           ))}
         </div>
 
@@ -154,30 +167,36 @@ export default function AboutVision() {
           </div>
 
           <div className="mt-6 grid gap-6 sm:grid-cols-3">
-            <PhotoPlaceholder
-              src="/images/school-life/classroom.svg"
-              alt="Classroom experience in AC classrooms"
-              label="Classroom Experience"
-              badge="AC Classrooms"
-              recommendedSize="800 × 600 px"
-              aspectRatio="aspect-[4/3]"
-            />
-            <PhotoPlaceholder
-              src="/images/school-life/lab.svg"
-              alt="Science and computer lab sessions"
-              label="Labs & Discovery"
-              badge="Science & IT Labs"
-              recommendedSize="800 × 600 px"
-              aspectRatio="aspect-[4/3]"
-            />
-            <PhotoPlaceholder
-              src="/images/school-life/sports.svg"
-              alt="Sports and physical activities"
-              label="Sports & Athletics"
-              badge="Sports Ground"
-              recommendedSize="800 × 600 px"
-              aspectRatio="aspect-[4/3]"
-            />
+            <TiltCard scale={1.03} maxTilt={6}>
+              <PhotoPlaceholder
+                src="/images/school-life/classroom.svg"
+                alt="Classroom experience in AC classrooms"
+                label="Classroom Experience"
+                badge="AC Classrooms"
+                recommendedSize="800 × 600 px"
+                aspectRatio="aspect-[4/3]"
+              />
+            </TiltCard>
+            <TiltCard scale={1.03} maxTilt={6}>
+              <PhotoPlaceholder
+                src="/images/school-life/lab.svg"
+                alt="Science and computer lab sessions"
+                label="Labs & Discovery"
+                badge="Science & IT Labs"
+                recommendedSize="800 × 600 px"
+                aspectRatio="aspect-[4/3]"
+              />
+            </TiltCard>
+            <TiltCard scale={1.03} maxTilt={6}>
+              <PhotoPlaceholder
+                src="/images/school-life/sports.svg"
+                alt="Sports and physical activities"
+                label="Sports & Athletics"
+                badge="Sports Ground"
+                recommendedSize="800 × 600 px"
+                aspectRatio="aspect-[4/3]"
+              />
+            </TiltCard>
           </div>
         </div>
       </div>

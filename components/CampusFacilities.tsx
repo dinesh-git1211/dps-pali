@@ -1,4 +1,5 @@
 import PhotoPlaceholder from "@/components/PhotoPlaceholder";
+import TiltCard from "@/components/TiltCard";
 import {
   Snowflake,
   Microscope,
@@ -92,9 +93,19 @@ export default function CampusFacilities() {
   return (
     <section
       id="facilities"
-      className="scroll-mt-24 bg-white py-20 sm:py-24"
+      className="relative scroll-mt-24 overflow-hidden overflow-x-hidden bg-white py-20 sm:py-24"
       aria-labelledby="facilities-heading"
     >
+      {/* ── Ambient Depth Orbs ── */}
+      <div
+        className="pointer-events-none absolute -right-24 top-1/3 size-80 rounded-full bg-emerald-500/10 blur-[90px]"
+        aria-hidden="true"
+      />
+      <div
+        className="pointer-events-none absolute -left-24 bottom-1/3 size-80 rounded-full bg-amber-400/10 blur-[90px]"
+        aria-hidden="true"
+      />
+
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* ── Section Header ── */}
         <div className="mx-auto max-w-3xl text-center">
@@ -114,43 +125,44 @@ export default function CampusFacilities() {
           </p>
         </div>
 
-        {/* ── Facility Cards Grid with Photo Skeletons ── */}
+        {/* ── Facility Cards Grid with 3D TiltCards ── */}
         <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {FACILITIES.map(
             ({ icon: Icon, title, description, badge, imageSrc, imageSize }) => (
-              <article
-                key={title}
-                className="group relative flex flex-col overflow-hidden rounded-xl border border-border bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md motion-reduce:hover:translate-y-0"
-              >
-                {/* Photo Skeleton Header */}
-                <div className="relative">
-                  <PhotoPlaceholder
-                    src={imageSrc}
-                    alt={title}
-                    label={title}
-                    badge={badge}
-                    recommendedSize={imageSize}
-                    aspectRatio="aspect-[16/10]"
-                    className="rounded-b-none border-0 border-b border-border"
-                  />
-                </div>
-
-                {/* Content */}
-                <div className="flex flex-1 flex-col p-5">
-                  <div className="flex items-center gap-3">
-                    <div className="inline-flex size-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-white">
-                      <Icon className="size-4" aria-hidden="true" />
-                    </div>
-                    <h3 className="font-heading text-base font-semibold text-foreground">
-                      {title}
-                    </h3>
+              <TiltCard key={title} scale={1.03} maxTilt={6}>
+                <article
+                  className="group relative flex h-full flex-col overflow-hidden rounded-xl border border-border bg-white shadow-sm transition-all duration-300 hover:shadow-xl hover:shadow-emerald-950/5 hover:border-emerald-200"
+                >
+                  {/* Photo Skeleton Header */}
+                  <div className="relative">
+                    <PhotoPlaceholder
+                      src={imageSrc}
+                      alt={title}
+                      label={title}
+                      badge={badge}
+                      recommendedSize={imageSize}
+                      aspectRatio="aspect-[16/10]"
+                      className="rounded-b-none border-0 border-b border-border"
+                    />
                   </div>
 
-                  <p className="mt-2.5 flex-1 text-sm leading-relaxed text-muted">
-                    {description}
-                  </p>
-                </div>
-              </article>
+                  {/* Content */}
+                  <div className="flex flex-1 flex-col p-5">
+                    <div className="flex items-center gap-3">
+                      <div className="inline-flex size-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-white">
+                        <Icon className="size-4" aria-hidden="true" />
+                      </div>
+                      <h3 className="font-heading text-base font-semibold text-foreground">
+                        {title}
+                      </h3>
+                    </div>
+
+                    <p className="mt-2.5 flex-1 text-sm leading-relaxed text-muted">
+                      {description}
+                    </p>
+                  </div>
+                </article>
+              </TiltCard>
             ),
           )}
         </div>

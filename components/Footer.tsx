@@ -149,7 +149,7 @@ export default function Footer() {
               href={GOOGLE_MAPS_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-6 inline-flex items-center gap-2 rounded-lg border border-slate-700 bg-slate-800 px-5 py-2.5 text-sm font-medium text-white transition-colors duration-200 hover:border-slate-600 hover:bg-slate-700 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-footer-bg"
+              className="mt-6 inline-flex items-center gap-2 rounded-lg border border-slate-700 bg-slate-800 px-5 py-2.5 text-sm font-medium text-white shadow-xs transition-all duration-200 hover:border-slate-600 hover:bg-slate-700 active:scale-95 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-footer-bg"
             >
               <MapPin className="size-4" aria-hidden="true" />
               Get Directions
