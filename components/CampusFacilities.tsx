@@ -93,7 +93,7 @@ export default function CampusFacilities() {
   return (
     <section
       id="facilities"
-      className="relative scroll-mt-24 overflow-hidden overflow-x-hidden bg-white py-20 sm:py-24"
+      className="relative scroll-mt-24 overflow-hidden overflow-x-hidden bg-editorial-cream py-20 sm:py-24"
       aria-labelledby="facilities-heading"
     >
       {/* ── Ambient Depth Orbs ── */}

@@ -21,8 +21,16 @@ export default function Hero() {
   const [isPlaying, setIsPlaying] = useState(true);
   const [hasVideoError, setHasVideoError] = useState(false);
 
-  /* ── Honor prefers-reduced-motion ── */
+  /* ── Honor prefers-reduced-motion & ensure autoplay ── */
   useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.defaultMuted = true;
+      videoRef.current.muted = true;
+      videoRef.current.play().catch(() => {
+        // Autoplay may be deferred until user interaction
+      });
+    }
+
     const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     if (motionQuery.matches && videoRef.current) {
       videoRef.current.pause();
@@ -52,86 +60,68 @@ export default function Hero() {
   };
 
   return (
-    <section
-      id="hero"
-      className="relative overflow-hidden overflow-x-hidden bg-linear-to-br from-hero-from to-hero-to"
-      aria-label="Welcome to DPS Pali District"
-    >
-      {/* ── Background Video & Poster Layer ── */}
-      <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
-        {!hasVideoError && (
-          <video
-            ref={videoRef}
-            autoPlay
-            loop
-            muted
-            playsInline
-            poster="/images/hero-campus.svg"
-            onError={() => setHasVideoError(true)}
-            className="h-full w-full object-cover opacity-25 mix-blend-luminosity scale-105"
-          >
-            <source src="/videos/hero-campus.mp4" type="video/mp4" />
-            <source src="/videos/hero-campus.webm" type="video/webm" />
-          </video>
-        )}
+    <div className="px-3 sm:px-6 pt-3 sm:pt-4 bg-editorial-cream">
+      <section
+        id="hero"
+        className="relative overflow-hidden rounded-[2.5rem] bg-linear-to-br from-hero-from to-hero-to min-h-[92vh] flex flex-col justify-between"
+        aria-label="Welcome to DPS Pali District"
+      >
+        {/* ── Background Video & Poster Layer ── */}
+        <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
+          {!hasVideoError && (
+            <video
+              ref={videoRef}
+              autoPlay
+              loop
+              muted
+              playsInline
+              poster="/images/hero-campus.svg"
+              onError={(e) => {
+                console.warn("Hero video playback issue:", e);
+                setHasVideoError(true);
+              }}
+              className="h-full w-full object-cover opacity-70 scale-105 transition-opacity duration-700"
+            >
+              <source src="/videos/hero-campus.mp4" type="video/mp4" />
+            </video>
+          )}
 
-        {/* Fallback Static Poster Image */}
-        {hasVideoError && (
-          <Image
-            src="/images/hero-campus.svg"
-            alt="DPS Pali District Campus Facade"
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover opacity-20 mix-blend-luminosity scale-105"
-          />
-        )}
+          {/* Fallback Static Poster Image */}
+          {hasVideoError && (
+            <Image
+              src="/images/hero-campus.svg"
+              alt="DPS Pali District Campus Facade"
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover opacity-30 scale-105"
+            />
+          )}
 
-        {/* Emerald vignette for 100% WCAG AAA readability */}
-        <div className="absolute inset-0 bg-linear-to-b from-hero-from/85 via-hero-from/90 to-hero-to/95" />
-      </div>
+          {/* Emerald & Dark Vignette for contrast with white headline */}
+          <div className="absolute inset-0 bg-linear-to-b from-hero-from/50 via-hero-from/30 to-hero-to/60" />
+          <div className="absolute inset-0 bg-radial-[circle_at_center] from-transparent via-black/20 to-black/60" />
+        </div>
 
-      {/* ── 3D Ambient Glowing Depth Orbs ── */}
-      <div
-        className="pointer-events-none absolute -left-20 -top-20 size-80 rounded-full bg-emerald-400/20 blur-[90px] animate-pulse-glow"
-        aria-hidden="true"
-      />
-      <div
-        className="pointer-events-none absolute -right-20 top-1/3 size-80 rounded-full bg-amber-400/15 blur-[90px] animate-pulse-glow"
-        style={{ animationDelay: "2.5s" }}
-        aria-hidden="true"
-      />
-
-      {/* ── Decorative pattern overlay ── */}
-      <div
-        className="pointer-events-none absolute inset-0 z-0 opacity-[0.04]"
-        aria-hidden="true"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle at 1px 1px, white 1px, transparent 0)",
-          backgroundSize: "40px 40px",
-        }}
-      />
-
-      {/* ── Main content ── */}
-      <div className="relative mx-auto max-w-7xl px-4 pb-16 pt-20 sm:px-6 sm:pb-20 sm:pt-28 lg:px-8 lg:pb-24 lg:pt-32">
-        <div className="flex flex-col items-center text-center">
+        {/* ── Main content ── */}
+        <div className="relative z-10 mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8 flex-1 flex flex-col items-center justify-center text-center mt-12 sm:mt-16">
+          
           {/* Logo with 3D Float */}
-          <div className="mb-6 animate-float-slow sm:mb-8">
+          <div className="mb-8 animate-float-slow sm:mb-12">
             <Image
               src="/logo.png"
               alt="DPS Pali District crest"
               width={100}
               height={110}
-              className="h-24 w-auto drop-shadow-2xl sm:h-28 lg:h-32"
+              className="h-24 w-auto drop-shadow-2xl sm:h-32 lg:h-40"
               style={{ width: "auto" }}
               priority
             />
           </div>
 
           {/* Location badge & Photo indicator */}
-          <div className="mb-6 flex flex-wrap items-center justify-center gap-2.5">
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 backdrop-blur-sm shadow-xs">
+          <div className="mb-8 flex flex-wrap items-center justify-center gap-3">
+            <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-1.5 backdrop-blur-md shadow-xs">
               <svg
                 className="size-4 text-amber-400"
                 fill="none"
@@ -151,72 +141,50 @@ export default function Hero() {
                   d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
                 />
               </svg>
-              <span className="text-xs font-medium tracking-wide text-white/90 sm:text-sm">
-                Sanpa, Pali, Rajasthan 306401
+              <span className="text-[11px] font-bold tracking-widest uppercase text-white/90 sm:text-xs">
+                Est. Pali, Rajasthan
               </span>
             </div>
 
-            <div className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-black/25 px-3 py-1.5 text-xs font-medium text-emerald-200/90 backdrop-blur-sm">
+            <div className="inline-flex items-center gap-1.5 rounded-full border border-emerald-400/20 bg-emerald-950/40 px-3 py-1.5 text-[11px] font-bold tracking-widest uppercase text-emerald-200/90 backdrop-blur-md">
               <Camera className="size-3.5 text-amber-400" aria-hidden="true" />
-              <span>Campus Tour / Video Slot</span>
+              <span>CBSE Affiliated</span>
+            </div>
+            
+            <div className="inline-flex items-center gap-1.5 rounded-full border border-amber-400/20 bg-amber-950/40 px-3 py-1.5 text-[11px] font-bold tracking-widest uppercase text-amber-400 backdrop-blur-md">
+              <span className="relative flex size-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full size-2 bg-amber-500"></span>
+              </span>
+              <span>Admissions 2026–27 Open</span>
             </div>
           </div>
 
           {/* Headline */}
-          <h1 className="font-heading text-4xl font-bold leading-[1.1] tracking-tight text-white drop-shadow-sm sm:text-5xl lg:text-6xl">
-            Delhi Public School
+          <h1 className="font-heading text-6xl font-black uppercase leading-[0.95] tracking-tighter text-white drop-shadow-sm sm:text-7xl lg:text-[8rem]">
+            Delhi Public
             <span className="mt-1 block text-emerald-100 sm:mt-2">
-              Pali District
+              School
             </span>
           </h1>
 
           {/* Tagline */}
-          <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-emerald-100/95 sm:text-xl">
-            Nurturing future leaders through holistic education, modern campus
-            facilities, and unwavering commitment to academic excellence under
-            the CBSE curriculum.
+          <p className="mx-auto mt-8 max-w-2xl font-mono text-xs font-semibold uppercase tracking-widest leading-relaxed text-emerald-100/95 sm:text-sm">
+            Service Before Self <span className="mx-2 text-amber-500">•</span> Architects of Intellect
           </p>
 
           {/* CTA Buttons with 3D Tap Feedback */}
-          <div className="mt-8 flex flex-col gap-4 sm:mt-10 sm:flex-row sm:gap-4">
+          <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:gap-4">
             <a
               href="#admissions"
-              className="inline-flex items-center justify-center gap-2 rounded-lg bg-accent px-7 py-3.5 text-base font-semibold text-white shadow-lg shadow-amber-950/20 transition-all duration-200 hover:bg-accent-hover hover:shadow-xl active:scale-95 focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 focus-visible:ring-offset-primary motion-reduce:transition-none"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-8 py-4 text-sm font-bold uppercase tracking-wider text-white shadow-lg shadow-amber-950/30 transition-all duration-200 hover:bg-accent-hover hover:shadow-xl active:scale-95 focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 focus-visible:ring-offset-primary motion-reduce:transition-none"
             >
-              <svg
-                className="size-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={2}
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5"
-                />
-              </svg>
               Apply for Admission
             </a>
             <a
               href="#facilities"
-              className="inline-flex items-center justify-center gap-2 rounded-lg border-2 border-white/30 bg-white/10 px-7 py-3.5 text-base font-semibold text-white backdrop-blur-sm shadow-md transition-all duration-200 hover:border-white/50 hover:bg-white/20 active:scale-95 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-primary motion-reduce:transition-none"
+              className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-white/30 bg-white/10 px-8 py-4 text-sm font-bold uppercase tracking-wider text-white backdrop-blur-sm shadow-md transition-all duration-200 hover:border-white/50 hover:bg-white/20 active:scale-95 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-primary motion-reduce:transition-none"
             >
-              <svg
-                className="size-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={2}
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0 0 12 9.75c-2.551 0-5.056.2-7.5.582V21"
-                />
-              </svg>
               Explore Campus
             </a>
           </div>
@@ -239,8 +207,6 @@ export default function Hero() {
             ))}
           </div>
         </div>
-      </div>
-
       {/* ── Video Pause / Play Accessible Toggle ── */}
       <div className="absolute bottom-6 right-4 z-20 sm:bottom-8 sm:right-6">
         <button
@@ -262,22 +228,7 @@ export default function Hero() {
           )}
         </button>
       </div>
-
-      {/* ── Bottom wave / curve ── */}
-      <div className="absolute bottom-0 left-0 right-0 pointer-events-none" aria-hidden="true">
-        <svg
-          viewBox="0 0 1440 60"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="w-full"
-          preserveAspectRatio="none"
-        >
-          <path
-            d="M0 60L60 52C120 44 240 28 360 22C480 16 600 20 720 26C840 32 960 40 1080 42C1200 44 1320 40 1380 38L1440 36V60H1380C1320 60 1200 60 1080 60C960 60 840 60 720 60C600 60 480 60 360 60C240 60 120 60 60 60H0Z"
-            fill="white"
-          />
-        </svg>
-      </div>
     </section>
+  </div>
   );
 }

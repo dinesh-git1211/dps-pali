@@ -34,7 +34,7 @@ export default function Admissions() {
   return (
     <section
       id="admissions"
-      className="relative scroll-mt-24 overflow-hidden overflow-x-hidden bg-section-alt py-20 sm:py-24"
+      className="relative scroll-mt-24 overflow-hidden overflow-x-hidden bg-editorial-cream py-20 sm:py-24"
       aria-labelledby="admissions-heading"
     >
       {/* ── Ambient Depth Orbs ── */}

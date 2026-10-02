@@ -1,4 +1,3 @@
-import TiltCard from "@/components/TiltCard";
 import {
   Palette,
   BookOpenCheck,
@@ -7,16 +6,20 @@ import {
   CheckCircle2,
 } from "lucide-react";
 
-/* ────────────────────────────────────────────────────────────────
-   Academic wing data — update freely as programs evolve
-   ──────────────────────────────────────────────────────────────── */
 const WINGS = [
   {
+    index: "01",
     icon: Palette,
     title: "Pre-Primary Wing",
     grades: "Nursery – KG",
-    color: "bg-amber-50 text-amber-800 border-amber-200",
-    accentBar: "bg-accent-decorative",
+    theme: {
+      bg: "bg-[#FDFBF7]",
+      accent: "text-amber-700",
+      border: "border-amber-200/60",
+      iconBg: "bg-amber-100",
+      zIndex: "z-10",
+      top: "top-24 sm:top-28",
+    },
     description:
       "A joyful, play-based learning environment where little learners explore language, numbers, art, and social skills through structured activities and creative play.",
     highlights: [
@@ -27,26 +30,40 @@ const WINGS = [
     ],
   },
   {
+    index: "02",
     icon: BookOpenCheck,
     title: "Primary Wing",
     grades: "Classes I – V",
-    color: "bg-emerald-50 text-emerald-800 border-emerald-200",
-    accentBar: "bg-primary",
+    theme: {
+      bg: "bg-[#F4FBF7]",
+      accent: "text-emerald-700",
+      border: "border-emerald-200/60",
+      iconBg: "bg-emerald-100",
+      zIndex: "z-20",
+      top: "top-28 sm:top-32",
+    },
     description:
       "A strong academic foundation with CBSE-aligned curriculum, smart classrooms, and experiential learning that builds curiosity and confidence.",
     highlights: [
       "CBSE-aligned academics",
-      "Smart classroom instruction",
+      "Smart AC classrooms",
       "Value education & life skills",
       "Regular assessments & parent connect",
     ],
   },
   {
+    index: "03",
     icon: FlaskConical,
     title: "Middle School",
     grades: "Classes VI – VIII",
-    color: "bg-blue-50 text-blue-800 border-blue-200",
-    accentBar: "bg-blue-600",
+    theme: {
+      bg: "bg-[#F8FAFC]",
+      accent: "text-slate-700",
+      border: "border-slate-200/80",
+      iconBg: "bg-slate-200",
+      zIndex: "z-30",
+      top: "top-32 sm:top-36",
+    },
     description:
       "An inquiry-driven stage that deepens subject mastery through well-equipped science and computer labs, project-based learning, and competitive exam preparation.",
     highlights: [
@@ -57,18 +74,25 @@ const WINGS = [
     ],
   },
   {
+    index: "04",
     icon: GraduationCap,
     title: "Senior Secondary",
     grades: "Classes IX – XII",
-    color: "bg-purple-50 text-purple-800 border-purple-200",
-    accentBar: "bg-purple-600",
+    theme: {
+      bg: "bg-[#FEF9EE]",
+      accent: "text-[#92400E]",
+      border: "border-amber-300/50",
+      iconBg: "bg-amber-200",
+      zIndex: "z-40",
+      top: "top-36 sm:top-40",
+    },
     description:
       "Board examination preparation with specialized Science, Commerce, and Humanities streams, career counselling, and a results-driven approach that shapes future-ready graduates.",
     highlights: [
       "Science, Commerce & Humanities streams",
       "CBSE Board exam preparation",
       "Career counselling & guidance",
-      "Practical lab sessions & projects",
+      "Advanced lab sessions & projects",
     ],
   },
 ] as const;
@@ -77,116 +101,101 @@ export default function AcademicWings() {
   return (
     <section
       id="academics"
-      className="relative scroll-mt-24 overflow-hidden overflow-x-hidden bg-section-alt py-20 sm:py-24"
+      className="relative scroll-mt-24 bg-editorial-cream pb-32 pt-20 sm:pb-40 sm:pt-28"
       aria-labelledby="academics-heading"
     >
-      {/* ── Ambient Depth Orbs ── */}
-      <div
-        className="pointer-events-none absolute -left-20 top-1/4 size-72 rounded-full bg-emerald-500/10 blur-[80px]"
-        aria-hidden="true"
-      />
-      <div
-        className="pointer-events-none absolute -right-20 bottom-1/4 size-72 rounded-full bg-amber-400/10 blur-[80px]"
-        aria-hidden="true"
-      />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* ── Section Header ── */}
-        <div className="mx-auto max-w-3xl text-center">
-          <p className="text-sm font-semibold uppercase tracking-widest text-accent-decorative">
-            Academics
+        <div className="mx-auto max-w-3xl text-center mb-16 sm:mb-24">
+          <p className="font-mono text-sm font-bold uppercase tracking-widest text-accent-decorative">
+            Academic Horizon
           </p>
           <h2
             id="academics-heading"
-            className="mt-2 font-heading text-3xl font-bold tracking-tight text-foreground sm:text-4xl"
-            style={{ textWrap: "balance" } as React.CSSProperties}
+            className="mt-4 font-heading text-4xl font-black uppercase tracking-tighter text-foreground sm:text-5xl lg:text-6xl"
           >
-            Academic Wings &amp; Curriculum
+            A Journey of <span className="text-primary italic font-serif tracking-tight">Excellence</span>
           </h2>
-          <p className="mt-4 text-lg leading-relaxed text-muted">
-            From nurturing curiosity in our youngest learners to preparing
-            senior students for board examinations and beyond — every wing is
-            designed with purpose and care.
+          <p className="mt-6 text-lg leading-relaxed text-muted">
+            From playful discovery to pre-university mastery, explore our comprehensive CBSE curriculum tailored for every stage of development.
           </p>
         </div>
 
-        {/* ── Wing Cards Grid with 3D TiltCards ── */}
-        <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:gap-8">
-          {WINGS.map(
-            ({
-              icon: Icon,
-              title,
-              grades,
-              color,
-              accentBar,
-              description,
-              highlights,
-            }) => (
-              <TiltCard key={title} scale={1.02} maxTilt={5}>
-                <article
-                  className="group relative h-full overflow-hidden rounded-xl border border-border bg-white shadow-sm transition-all duration-300 hover:shadow-xl hover:shadow-emerald-950/5 hover:border-emerald-200"
-                >
-                  {/* Top color accent bar */}
-                  <div className={`h-1.5 ${accentBar}`} aria-hidden="true" />
+        {/* ── Sticky Stacking Cards Container ── */}
+        <div className="relative mx-auto max-w-5xl pb-10">
+          {WINGS.map((wing, i) => (
+            <article
+              key={wing.title}
+              className={`sticky ${wing.theme.top} ${wing.theme.zIndex} mb-8 sm:mb-12 w-full`}
+            >
+              <div
+                className={`relative overflow-hidden rounded-3xl border ${wing.theme.border} ${wing.theme.bg} shadow-2xl shadow-slate-900/10 transition-transform duration-500 ease-out`}
+              >
+                {/* Background Watermark Numeral */}
+                <div className="pointer-events-none absolute -right-4 -top-12 opacity-[0.03] sm:-right-8 sm:-top-16">
+                  <span className="font-heading text-[12rem] font-black sm:text-[18rem] tracking-tighter">
+                    {wing.index}
+                  </span>
+                </div>
 
-                  <div className="p-6 sm:p-8">
-                    {/* Icon + title row */}
-                    <div className="flex items-start gap-4">
-                      <div
-                        className={`inline-flex size-12 shrink-0 items-center justify-center rounded-lg border ${color} transition-transform duration-300 group-hover:scale-105`}
-                      >
-                        <Icon className="size-6" aria-hidden="true" />
+                <div className="relative p-8 sm:p-12 lg:p-16 flex flex-col lg:flex-row gap-10 lg:gap-16">
+                  {/* Left Column: Title & Intro */}
+                  <div className="flex-1">
+                    <div className="flex items-center gap-4 mb-6">
+                      <div className={`flex size-14 shrink-0 items-center justify-center rounded-2xl ${wing.theme.iconBg}`}>
+                        <wing.icon className={`size-7 ${wing.theme.accent}`} aria-hidden="true" />
                       </div>
                       <div>
-                        <h3 className="font-heading text-xl font-semibold text-foreground">
-                          {title}
-                        </h3>
-                        <span className="mt-0.5 inline-block rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-600">
-                          {grades}
+                        <span className="font-mono text-xs font-bold tracking-widest uppercase text-muted">
+                          {wing.index} / 04
                         </span>
+                        <h3 className="mt-1 font-heading text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+                          {wing.title}
+                        </h3>
                       </div>
                     </div>
+                    
+                    <div className="inline-flex items-center rounded-full border border-slate-200 bg-white/50 px-4 py-1.5 text-sm font-semibold tracking-wide text-slate-700 shadow-sm">
+                      {wing.grades}
+                    </div>
 
-                    {/* Description */}
-                    <p className="mt-4 text-base leading-relaxed text-muted">
-                      {description}
+                    <p className="mt-8 text-lg leading-relaxed text-slate-600 sm:text-xl">
+                      {wing.description}
                     </p>
+                  </div>
 
-                    {/* Highlights list */}
-                    <ul className="mt-5 space-y-2.5" role="list">
-                      {highlights.map((item) => (
-                        <li key={item} className="flex items-start gap-2.5">
-                          <CheckCircle2
-                            className="mt-0.5 size-4 shrink-0 text-primary"
-                            aria-hidden="true"
-                          />
-                          <span className="text-sm text-slate-700">{item}</span>
+                  {/* Right Column: Highlights */}
+                  <div className="flex-1 lg:pl-10 lg:border-l lg:border-slate-200/60">
+                    <h4 className="font-mono text-sm font-bold uppercase tracking-widest text-foreground mb-6">
+                      Curriculum Highlights
+                    </h4>
+                    <ul className="space-y-4">
+                      {wing.highlights.map((highlight) => (
+                        <li key={highlight} className="flex items-start gap-3">
+                          <CheckCircle2 className={`mt-0.5 size-5 shrink-0 ${wing.theme.accent}`} aria-hidden="true" />
+                          <span className="text-base font-medium text-slate-700">
+                            {highlight}
+                          </span>
                         </li>
                       ))}
                     </ul>
+                    
+                    <div className="mt-10">
+                      <a
+                        href="#admissions"
+                        className={`inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-bold uppercase tracking-widest transition-all active:scale-95 border-2 ${wing.theme.border} text-foreground hover:bg-white`}
+                      >
+                        Inquire Now
+                        <svg className="size-4" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                        </svg>
+                      </a>
+                    </div>
                   </div>
-                </article>
-              </TiltCard>
-            ),
-          )}
-        </div>
-
-        {/* ── Curriculum highlights banner ── */}
-        <div className="mt-12 rounded-xl border border-primary/20 bg-primary-light px-6 py-6 sm:flex sm:items-center sm:justify-between sm:px-8">
-          <div>
-            <h3 className="font-heading text-lg font-semibold text-primary">
-              CBSE Affiliated Curriculum
-            </h3>
-            <p className="mt-1 text-sm text-slate-600">
-              Our curriculum integrates NCERT guidelines with experiential
-              learning, modern science &amp; computer labs, and 21st-century skill development.
-            </p>
-          </div>
-          <a
-            href="#admissions"
-            className="mt-4 inline-flex shrink-0 items-center justify-center rounded-lg bg-primary px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-primary-hover active:scale-95 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 sm:mt-0"
-          >
-            Begin Admission Inquiry
-          </a>
+                </div>
+              </div>
+            </article>
+          ))}
         </div>
       </div>
     </section>

@@ -36,13 +36,17 @@ export const metadata: Metadata = {
   },
 };
 
+import SmoothScroll from "@/components/SmoothScroll";
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
       className={`${poppins.variable} ${openSans.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col bg-editorial-cream selection:bg-emerald-900/20">
+        <SmoothScroll>{children}</SmoothScroll>
+      </body>
     </html>
   );
 }

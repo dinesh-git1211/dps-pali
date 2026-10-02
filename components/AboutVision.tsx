@@ -38,7 +38,7 @@ export default function AboutVision() {
   return (
     <section
       id="about"
-      className="relative scroll-mt-24 overflow-hidden overflow-x-hidden bg-white py-20 sm:py-24"
+      className="relative scroll-mt-24 overflow-hidden overflow-x-hidden bg-editorial-cream py-20 sm:py-24"
       aria-labelledby="about-heading"
     >
       {/* ── Ambient Depth Orbs ── */}

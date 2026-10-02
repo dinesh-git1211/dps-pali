@@ -85,7 +85,7 @@ export default function Gallery() {
   return (
     <section
       id="gallery"
-      className="relative scroll-mt-24 overflow-hidden overflow-x-hidden bg-section-alt py-20 sm:py-24"
+      className="relative scroll-mt-24 overflow-hidden overflow-x-hidden bg-editorial-cream py-20 sm:py-24"
       aria-labelledby="gallery-heading"
     >
       {/* ── Ambient Depth Orbs ── */}
