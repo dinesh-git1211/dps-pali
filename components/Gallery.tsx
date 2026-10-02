@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import TiltCard from "@/components/TiltCard";
-import { Eye, X, Camera, Sparkles } from "lucide-react";
+import { Eye, X, Camera } from "lucide-react";
 
 interface GalleryItem {
   id: string;
@@ -199,7 +199,7 @@ export default function Gallery() {
         </div>
 
         {/* ── Photo submission hint bar ── */}
-        <div className="mt-12 flex flex-col items-center justify-between gap-4 rounded-xl border border-dashed border-primary/30 bg-primary-light/50 p-5 text-center sm:flex-row sm:text-left">
+        <div className="mt-12 flex flex-col items-center justify-center gap-4 rounded-xl border border-dashed border-primary/30 bg-primary-light/50 p-5 text-center sm:flex-row sm:text-left">
           <div className="flex items-center gap-3">
             <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-primary text-white">
               <Camera className="size-5" aria-hidden="true" />
@@ -217,13 +217,6 @@ export default function Gallery() {
               </p>
             </div>
           </div>
-          <a
-            href="#admissions"
-            className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-primary-hover focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-          >
-            <Sparkles className="size-3.5" aria-hidden="true" />
-            <span>Apply for Admissions</span>
-          </a>
         </div>
       </div>
 

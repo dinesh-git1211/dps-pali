@@ -123,7 +123,7 @@ export default function AcademicWings() {
 
         {/* ── Sticky Stacking Cards Container ── */}
         <div className="relative mx-auto max-w-5xl pb-10">
-          {WINGS.map((wing, i) => (
+          {WINGS.map((wing) => (
             <article
               key={wing.title}
               className={`sticky ${wing.theme.top} ${wing.theme.zIndex} mb-8 sm:mb-12 w-full`}

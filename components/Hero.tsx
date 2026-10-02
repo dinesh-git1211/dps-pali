@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import TiltCard from "@/components/TiltCard";
-import { Camera, Play, Pause } from "lucide-react";
+import { BookOpenCheck, Play, Pause } from "lucide-react";
 
 /* ────────────────────────────────────────────────────────────────
    Statistics shown in the hero section.
@@ -147,7 +147,7 @@ export default function Hero() {
             </div>
 
             <div className="inline-flex items-center gap-1.5 rounded-full border border-emerald-400/20 bg-emerald-950/40 px-3 py-1.5 text-[11px] font-bold tracking-widest uppercase text-emerald-200/90 backdrop-blur-md">
-              <Camera className="size-3.5 text-amber-400" aria-hidden="true" />
+              <BookOpenCheck className="size-3.5 text-amber-400" aria-hidden="true" />
               <span>CBSE Affiliated</span>
             </div>
             
