@@ -107,6 +107,8 @@ export default function AdmissionsForm() {
     }
   };
 
+  const [serverError, setServerError] = useState<string | null>(null);
+
   /* ── Submit handler ── */
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -120,20 +122,43 @@ export default function AdmissionsForm() {
     }
 
     setErrors({});
+    setServerError(null);
     setStatus("submitting");
 
-    // Simulate submission (replace with actual API endpoint)
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    setStatus("success");
-    setData(INITIAL_DATA);
-
-    // Scroll success banner into view
-    requestAnimationFrame(() => {
-      formContainerRef.current?.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
+    try {
+      const response = await fetch("/api/admissions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
       });
-    });
+
+      const resData = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(resData.error || "Submission failed. Please try again.");
+      }
+
+      setStatus("success");
+      setData(INITIAL_DATA);
+
+      // Scroll success banner into view
+      requestAnimationFrame(() => {
+        formContainerRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      });
+    } catch (err: unknown) {
+      const errorMessage =
+        err instanceof Error
+          ? err.message
+          : "An unexpected error occurred. Please try again.";
+      setServerError(errorMessage);
+      setStatus("idle");
+      requestAnimationFrame(() => summaryRef.current?.focus());
+    }
   };
 
   const errorEntries = Object.entries(errors) as [keyof FormData, string][];
@@ -187,8 +212,28 @@ export default function AdmissionsForm() {
         Fill in the details below and we&apos;ll get back to you shortly.
       </p>
 
-      {/* ── Error summary ── */}
-      {errorEntries.length > 0 && (
+      {/* ── Server Error summary ── */}
+      {serverError && (
+        <div
+          ref={summaryRef}
+          role="alert"
+          tabIndex={-1}
+          className="mt-4 rounded-lg border border-red-200 bg-red-50 p-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-destructive focus-visible:ring-offset-2"
+        >
+          <div className="flex items-center gap-2">
+            <AlertCircle
+              className="size-5 shrink-0 text-destructive"
+              aria-hidden="true"
+            />
+            <p className="text-sm font-semibold text-destructive">
+              {serverError}
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* ── Validation Error summary ── */}
+      {errorEntries.length > 0 && !serverError && (
         <div
           ref={summaryRef}
           role="alert"
