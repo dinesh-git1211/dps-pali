@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import TiltCard from "@/components/TiltCard";
-import { Eye, X, Camera } from "lucide-react";
+import { Eye, X } from "lucide-react";
 
 interface GalleryItem {
   id: string;
@@ -62,7 +62,7 @@ const GALLERY_ITEMS: GalleryItem[] = [
   },
   {
     id: "campus-view",
-    title: "Sprawling Sanpa Campus",
+    title: "Sprawling Campus",
     category: "Campus",
     description:
       "Wide campus panorama showing the serene school building, manicured trees, and open sports field.",
@@ -196,27 +196,6 @@ export default function Gallery() {
               </div>
             </TiltCard>
           ))}
-        </div>
-
-        {/* ── Photo submission hint bar ── */}
-        <div className="mt-12 flex flex-col items-center justify-center gap-4 rounded-xl border border-dashed border-primary/30 bg-primary-light/50 p-5 text-center sm:flex-row sm:text-left">
-          <div className="flex items-center gap-3">
-            <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-primary text-white">
-              <Camera className="size-5" aria-hidden="true" />
-            </div>
-            <div>
-              <p className="text-sm font-semibold text-primary">
-                Ready for Real Photos
-              </p>
-              <p className="text-xs text-slate-600">
-                Place event &amp; campus photos in{" "}
-                <code className="rounded bg-white px-1.5 py-0.5 font-mono text-[11px] text-primary">
-                  public/images/gallery/
-                </code>{" "}
-                to display them instantly.
-              </p>
-            </div>
-          </div>
         </div>
       </div>
 

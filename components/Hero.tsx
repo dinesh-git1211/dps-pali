@@ -169,8 +169,10 @@ export default function Hero() {
           </h1>
 
           {/* Tagline */}
-          <p className="mx-auto mt-8 max-w-2xl font-mono text-xs font-semibold uppercase tracking-widest leading-relaxed text-emerald-100/95 sm:text-sm">
-            Service Before Self <span className="mx-2 text-amber-500">•</span> Architects of Intellect
+          <p className="mx-auto mt-6 sm:mt-8 max-w-2xl font-mono text-[11px] sm:text-xs md:text-sm font-semibold uppercase tracking-widest leading-relaxed text-emerald-100/95">
+            <span className="block sm:inline">Service Before Self</span>
+            <span className="hidden mx-2 text-amber-500 sm:inline" aria-hidden="true">•</span>
+            <span className="block sm:inline mt-1 sm:mt-0">Architects of Intellect</span>
           </p>
 
           {/* CTA Buttons with 3D Tap Feedback */}
