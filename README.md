@@ -69,25 +69,6 @@ npm run start
 npm run lint
 ```
 
----
-
-## 📸 Image Assets & Photo Slots
-
-The site features built-in photo placeholder skeletons ready to receive real campus photographs without any code modifications:
-
-| Slot | Path | Ideal Resolution | Description |
-|---|---|---|---|
-| **Hero Campus** | `public/images/hero-campus.jpg` | `1920 × 1080 px` | Main school building facade & entrance |
-| **Principal** | `public/images/principal.jpg` | `400 × 400 px` | Formal portrait of the Principal |
-| **Facilities** | `public/images/facilities/*.jpg` | `800 × 533 px` | Classrooms, Labs, Library, Sports grounds |
-| **School Life** | `public/images/school-life/*.jpg` | `800 × 600 px` | Students in action, classroom, sports |
-| **Gallery** | `public/images/gallery/*.jpg` | `800 × 600 px` | Annual Day, Athletic Meet, Science Fair |
-| **Admissions** | `public/images/admissions-welcome.jpg` | `800 × 500 px` | Campus tour & admissions desk |
-
-Detailed image instructions are documented in [`public/images/README.md`](public/images/README.md).
-
----
-
 ## 📄 License
 
 © Delhi Public School Pali District. All rights reserved.
