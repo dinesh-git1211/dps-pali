@@ -10,9 +10,9 @@ import { BookOpenCheck, Play, Pause } from "lucide-react";
    Update these values as the school grows.
    ──────────────────────────────────────────────────────────────── */
 const STATS = [
-  { value: "500+", label: "Students Enrolled" },
+  { value: "1200+", label: "Students Enrolled" },
   { value: "50+", label: "Expert Faculty" },
-  { value: "15:1", label: "Student-Teacher Ratio" },
+  { value: "26:1", label: "Student-Teacher Ratio" },
   { value: "100%", label: "Board Pass Rate" },
 ] as const;
 

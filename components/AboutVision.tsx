@@ -162,7 +162,6 @@ export default function AboutVision() {
             </div>
             <div className="hidden sm:flex items-center gap-1.5 text-xs text-muted">
               <Sparkles className="size-4 text-accent-decorative" aria-hidden="true" />
-              <span>Sanpa Campus, Rajasthan</span>
             </div>
           </div>
 
