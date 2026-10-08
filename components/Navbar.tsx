@@ -177,14 +177,14 @@ export default function Navbar() {
       {/* ── Mobile Menu Panel ── */}
       <div
         id="mobile-menu"
-        className={`overflow-hidden transition-[max-height,opacity] duration-300 ease-in-out md:hidden ${
+        className={`transition-[max-height,opacity] duration-300 ease-in-out md:hidden overflow-y-auto ${
           mobileOpen
-            ? "max-h-[400px] opacity-100"
-            : "max-h-0 opacity-0"
+            ? "max-h-[calc(100vh-5rem)] opacity-100 shadow-xl"
+            : "max-h-0 opacity-0 overflow-hidden pointer-events-none"
         }`}
         aria-hidden={!mobileOpen}
       >
-        <div className="border-t border-border px-4 pb-4 pt-2">
+        <div className="border-t border-border px-4 pb-6 pt-2 bg-white">
           <ul className="flex flex-col gap-1" role="list">
             {NAV_LINKS.map(({ label, href }) => (
               <li key={href}>
